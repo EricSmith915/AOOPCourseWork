@@ -27,6 +27,7 @@ public class Event {
     private BigDecimal silverPrice;
     private BigDecimal bronzePrice;
     private BigDecimal generalPrice;
+    private BigDecimal cost;
     private Venue venue;
 
     //Constructors
@@ -35,7 +36,8 @@ public class Event {
 
     }
 
-    public Event(int id, String name, Date date, Date time, BigDecimal vipPrice, BigDecimal goldPrice, BigDecimal silverPrice, BigDecimal bronzePrice, BigDecimal generalPrice, Venue venue) {
+    public Event(int id, String name, Date date, Date time, BigDecimal vipPrice, BigDecimal goldPrice, BigDecimal silverPrice, BigDecimal bronzePrice, BigDecimal generalPrice, Venue venue,
+    BigDecimal cost) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -46,6 +48,7 @@ public class Event {
         this.bronzePrice = bronzePrice;
         this.generalPrice = generalPrice;
         this.venue = venue;
+        this.cost = cost;
     }
 
     //Getters and Setters
@@ -137,19 +140,41 @@ public class Event {
         int totalPercent = this.venue.getPctBronze() + this.venue.getPctSilver() + this.venue.getPctGold() +
                 this.venue.getPctVIP() + this.venue.getPctGeneral();
 
+        BigDecimal vipRevenue = new BigDecimal(this.venue.getCapacity() * this.venue.getPctVIP());
+        vipRevenue = vipRevenue.add(vipPrice);
+
+        BigDecimal goldRevenue = new BigDecimal(this.venue.getCapacity() * this.venue.getPctGold());
+        goldRevenue = goldRevenue.add(goldPrice);
+
+        BigDecimal silverRevenue = new BigDecimal(this.venue.getCapacity() * this.venue.getPctSilver());
+        silverRevenue = silverRevenue.add(silverPrice);
+
+        BigDecimal bronzeRevenue = new BigDecimal(this.venue.getCapacity() * this.venue.getPctBronze());
+        bronzeRevenue = bronzeRevenue.add(bronzePrice);
+
+        BigDecimal generalRevenue = new BigDecimal(this.venue.getCapacity() * this.venue.getPctGeneral());
+        generalRevenue = generalRevenue.add(generalPrice);
+
+        BigDecimal totalRevenue = generalRevenue.add(bronzeRevenue.add(silverRevenue.add(goldRevenue.add(vipRevenue))));
+
+
+
+
         System.out.println("\n==============================================================================" +
                 "\nEvent ID: " + this.id + "\n" + this.name + "\n" +this.date + "\n" +this.time + "\nEvent Capacity: " +
                 this.venue.getCapacity() + "\nTotal Seats Sold: " + (this.venue.getCapacity() * totalPercent) + "\n" +
-                "Total VIP seats sold: " + (this.venue.getCapacity() * this.venue.getPctVIP()) + "\nTotal Gold Seats Sold" +
-                (this.venue.getCapacity() * this.venue.getPctGold()) + "\nTotal Silver Seats Sold" +
-                (this.venue.getCapacity() * this.venue.getPctSilver()) + "\nTotal Bronze Seats Sold" +
-                (this.venue.getCapacity() * this.venue.getPctBronze()) + "\nTotal General Seats Sold" +
-                (this.venue.getCapacity() * this.venue.getPctGeneral()) + "\nTotal revenue for VIP tickets:" +
-                new BigDecimal(((this.venue.getCapacity() * this.venue.getPctVIP()))) + this.vipPrice + "\nTotal revenue for Gold tickets:" +
-                new BigDecimal(((this.venue.getCapacity() * this.venue.getPctGold()))) + this.goldPrice + "\nTotal revenue for Silver tickets:" +
-                new BigDecimal(((this.venue.getCapacity() * this.venue.getPctSilver()))) + this.silverPrice +"\nTotal revenue for Bronze tickets:" +
-                new BigDecimal(((this.venue.getCapacity() * this.venue.getPctBronze()))) + this.bronzePrice + "\nTotal revenue for General tickets:" +
-                new BigDecimal(((this.venue.getCapacity() * this.venue.getPctGeneral()))) + this.generalPrice);
+                "Total VIP seats sold: " + (this.venue.getCapacity() * this.venue.getPctVIP()) + "\nTotal Gold Seats Sold: " +
+                (this.venue.getCapacity() * this.venue.getPctGold()) + "\nTotal Silver Seats Sold: " +
+                (this.venue.getCapacity() * this.venue.getPctSilver()) + "\nTotal Bronze Seats Sold: " +
+                (this.venue.getCapacity() * this.venue.getPctBronze()) + "\nTotal General Seats Sold: " +
+                (this.venue.getCapacity() * this.venue.getPctGeneral()) + "\nTotal revenue for VIP tickets: $" +
+                vipRevenue + "\nTotal revenue for Gold tickets: $" +
+                goldRevenue + "\nTotal revenue for Silver tickets: $" +
+                silverRevenue +"\nTotal revenue for Bronze tickets: $" +
+                bronzeRevenue + "\nTotal revenue for General tickets: $" +
+                generalRevenue + "\nTotal revenue for all events: $" +
+                totalRevenue + "Expected Profit(Sell Out): $" +
+                "\n==============================================================================\n");
 
     }
 }

@@ -23,7 +23,6 @@ public class Venue {
     private boolean fireworks;
     private int fireworksCost;
     private int capacity;
-    private int cost;
 
     //Constructor
 
@@ -31,7 +30,7 @@ public class Venue {
 
     }
 
-    public Venue(String name, int pctUnavailableSeat, int pctVIP, int pctGold, int pctSilver, int pctBronze, int pctGeneral, int pctReserved, int capacity, int cost) {
+    public Venue(String name, int pctUnavailableSeat, int pctVIP, int pctGold, int pctSilver, int pctBronze, int pctGeneral, int pctReserved, int capacity) {
         this.name = name;
         this.pctUnavailableSeat = pctUnavailableSeat;
         this.pctVIP = pctVIP;
@@ -41,7 +40,6 @@ public class Venue {
         this.pctGeneral = pctGeneral;
         this.pctReserved = pctReserved;
         this.capacity = capacity;
-        this.cost = cost;
     }
 
     //Getters and Setters
@@ -143,11 +141,4 @@ public class Venue {
         this.capacity = capacity;
     }
 
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
 }

@@ -19,7 +19,7 @@ public class Stadium extends Venue{
     public Stadium() {
     }
 
-    public Stadium(String name, int pctUnavailableSeat, int pctVIP, int pctGold, int pctSilver, int pctBronze, int pctGeneral, int pctReserved, int capacity, int cost) {
-        super(name, pctUnavailableSeat, pctVIP, pctGold, pctSilver, pctBronze, pctGeneral, pctReserved, capacity, cost);
+    public Stadium(String name, int pctUnavailableSeat, int pctVIP, int pctGold, int pctSilver, int pctBronze, int pctGeneral, int pctReserved, int capacity) {
+        super(name, pctUnavailableSeat, pctVIP, pctGold, pctSilver, pctBronze, pctGeneral, pctReserved, capacity);
     }
 }

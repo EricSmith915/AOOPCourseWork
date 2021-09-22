@@ -21,7 +21,7 @@ public class Concert extends Event{
     public Concert() {
     }
 
-    public Concert(int id, String name, Date date, Date time, BigDecimal vipPrice, BigDecimal goldPrice, BigDecimal silverPrice, BigDecimal bronzePrice, BigDecimal generalPrice, Venue venue) {
-        super(id, name, date, time, vipPrice, goldPrice, silverPrice, bronzePrice, generalPrice, venue);
+    public Concert(int id, String name, Date date, Date time, BigDecimal vipPrice, BigDecimal goldPrice, BigDecimal silverPrice, BigDecimal bronzePrice, BigDecimal generalPrice, Venue venue, BigDecimal cost) {
+        super(id, name, date, time, vipPrice, goldPrice, silverPrice, bronzePrice, generalPrice, venue, cost);
     }
 }

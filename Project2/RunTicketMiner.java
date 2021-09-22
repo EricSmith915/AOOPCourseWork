@@ -11,10 +11,7 @@ Moreover, all deliverables including, but not limited to the source code, lab re
 
 package Project2;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -34,9 +31,14 @@ public class RunTicketMiner {
 
         System.out.println("Hello! Welcome to TicketMiner! \nBefore we start," +
                 " we will need to know a little more about you. \nPlease enter the " +
-                "name of your csv file. Make sure to include .csv at the end. This entry is case sensitive\n");
+                "name of your event csv file. Make sure to include .csv at the end. This entry is case sensitive\n");
 
         String csvName = input.nextLine();
+
+        System.out.println("\nThank you! Now please enter the name of the customer list. This is also case sensitive." +
+                "Make sure to include .csv at the end\n");
+
+        String customerList = input.nextLine();
 
 
         //Asks the user for directory
@@ -54,8 +56,8 @@ public class RunTicketMiner {
 
         //Tries to create a log file and posts an error if the file is already found
         try{
-            File newFile = new File(path + "log.txt");
-            if(!(newFile.createNewFile())){
+            File logFile = new File(path + "log.txt");
+            if(!(logFile.createNewFile())){
                 System.out.println("\nCould not create new file. You probably already have a file called log.txt already." +
                         " Please delete the old log.txt if possible\n");
             }
@@ -109,26 +111,22 @@ public class RunTicketMiner {
                         case "Stadium":
                             venue = new Stadium(currentLine[10], Integer.parseInt(currentLine[11]), Integer.parseInt(currentLine[15]),
                                     Integer.parseInt(currentLine[16]), Integer.parseInt(currentLine[17]), Integer.parseInt(currentLine[18]),
-                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]),
-                                    Integer.parseInt(currentLine[14]));
+                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]));
                             break;
                         case "Arena":
                             venue = new Arena(currentLine[10], Integer.parseInt(currentLine[11]), Integer.parseInt(currentLine[15]),
                                     Integer.parseInt(currentLine[16]), Integer.parseInt(currentLine[17]), Integer.parseInt(currentLine[18]),
-                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]),
-                                    Integer.parseInt(currentLine[14]));
+                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]));
                             break;
                         case "Auditorium":
                             venue = new Auditorium(currentLine[10], Integer.parseInt(currentLine[11]), Integer.parseInt(currentLine[15]),
                                     Integer.parseInt(currentLine[16]), Integer.parseInt(currentLine[17]), Integer.parseInt(currentLine[18]),
-                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]),
-                                    Integer.parseInt(currentLine[14]));
+                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]));
                             break;
                         case "Open Air":
                             venue = new OpenAir(currentLine[10], Integer.parseInt(currentLine[11]), Integer.parseInt(currentLine[15]),
                                     Integer.parseInt(currentLine[16]), Integer.parseInt(currentLine[17]), Integer.parseInt(currentLine[18]),
-                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]),
-                                    Integer.parseInt(currentLine[14]));
+                                    Integer.parseInt(currentLine[19]), Integer.parseInt(currentLine[20]), Integer.parseInt(currentLine[13]));
                             break;
                     }
 
@@ -154,17 +152,17 @@ public class RunTicketMiner {
                         case "Sport":
                             event = new Sport(Integer.parseInt(currentLine[0]), currentLine[2], format.parse(date[0] + "/" + date[1] + "/" + date[2]),
                                     hourFormat.parse(hour[0] + ":" + hour[1]), new BigDecimal(currentLine[5]), new BigDecimal(currentLine[6]),
-                                    new BigDecimal(currentLine[7]), new BigDecimal(currentLine[8]), new BigDecimal(currentLine[9]), venue);
+                                    new BigDecimal(currentLine[7]), new BigDecimal(currentLine[8]), new BigDecimal(currentLine[9]), venue, new BigDecimal(currentLine[14]));
                             break;
                         case "Concert":
                             event = new Concert(Integer.parseInt(currentLine[0]), currentLine[2], format.parse(date[0] + "/" + date[1] + "/" + date[2]),
                                     hourFormat.parse(hour[0] + ":" + hour[1]), new BigDecimal(currentLine[5]), new BigDecimal(currentLine[6]),
-                                    new BigDecimal(currentLine[7]), new BigDecimal(currentLine[8]), new BigDecimal(currentLine[9]), venue);
+                                    new BigDecimal(currentLine[7]), new BigDecimal(currentLine[8]), new BigDecimal(currentLine[9]), venue, new BigDecimal(currentLine[14]));
                             break;
                         case "Special":
                             event = new Special(Integer.parseInt(currentLine[0]), currentLine[2], format.parse(date[0] + "/" + date[1] + "/" + date[2]),
                                     hourFormat.parse(hour[0] + ":" + hour[1]), new BigDecimal(currentLine[5]), new BigDecimal(currentLine[6]),
-                                    new BigDecimal(currentLine[7]), new BigDecimal(currentLine[8]), new BigDecimal(currentLine[9]), venue);
+                                    new BigDecimal(currentLine[7]), new BigDecimal(currentLine[8]), new BigDecimal(currentLine[9]), venue, new BigDecimal(currentLine[14]));
                             break;
                     }
 
@@ -188,7 +186,7 @@ public class RunTicketMiner {
 
         String name = input.nextLine();
 
-        System.out.println("\n Please type in your password\n");
+        System.out.println("\nPlease type in your password\n");
 
         String password = input.nextLine();
 
@@ -196,6 +194,7 @@ public class RunTicketMiner {
     }
 
     public static void systemAdministrator(ArrayList<Event> event, String path){
+        printLog(path, "User logs in as System Admin");
         Scanner input = new Scanner(System.in);
         String choice = "";
 
@@ -204,12 +203,59 @@ public class RunTicketMiner {
 
             choice = input.nextLine();
 
+            switch(choice){
+                case "1":
+                    System.out.println("\nEnter the ID of the event you wish to view\n");
 
+                    choice = input.nextLine();
+                    try {
+                        event.get(Integer.parseInt(choice)).printSysAdmin();
+                        printLog(path, "Admin prints out event " + choice);
+                    } catch (NullPointerException e){
+                        System.out.println("\nYou did not enter a valid ID\n");
+                        printLog(path, "Admin searches ID that is out of bounds");
+                    } catch (IndexOutOfBoundsException e){
+                        System.out.println("\nYou did not enter a valid ID\n");
+                        printLog(path, "Admin searches ID that is out of bounds");
+                    }
+                    break;
+                case "2":
+                    System.out.println("\nEnter the name of the event you wish to view\n");
+
+                    choice = input.nextLine();
+                    for(int i = 1; i < event.size(); i++){
+                        if(event.get(i).getName().equalsIgnoreCase(choice)){
+                            event.get(i).printSysAdmin();
+                            break;
+                        }
+                    }
+                    System.out.println("\nCould not find an event with that name\n");
+                case "Exit":
+                    exitProgram(path);
+            }
         }
     }
 
-    public static void exitProgram(){
-
+    public static void exitProgram(String path) {
+        printLog(path, "User exits the system");
+        System.exit(0);
     }
 
+    public static void printLog(String path, String message){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+
+        try {
+            //Creates a variety of writers which will print to the end of the log file
+            FileWriter x = new FileWriter(path + "log.txt", true);
+            BufferedWriter y = new BufferedWriter(x);
+            PrintWriter writer = new PrintWriter(y);
+
+            writer.println(formatter.format(date) + ": " + message);
+            writer.close();
+
+        } catch (IOException E) {
+            System.out.println("\nCould not write to log\n");
+        }
+    }
 }

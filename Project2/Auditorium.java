@@ -18,7 +18,7 @@ public class Auditorium extends Venue{
     public Auditorium() {
     }
 
-    public Auditorium(String name, int pctUnavailableSeat, int pctVIP, int pctGold, int pctSilver, int pctBronze, int pctGeneral, int pctReserved, int capacity, int cost) {
-        super(name, pctUnavailableSeat, pctVIP, pctGold, pctSilver, pctBronze, pctGeneral, pctReserved, capacity, cost);
+    public Auditorium(String name, int pctUnavailableSeat, int pctVIP, int pctGold, int pctSilver, int pctBronze, int pctGeneral, int pctReserved, int capacity) {
+        super(name, pctUnavailableSeat, pctVIP, pctGold, pctSilver, pctBronze, pctGeneral, pctReserved, capacity);
     }
 }
